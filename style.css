@@ -1,0 +1,526 @@
+/* --- Global Reset & Typography --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+:root {
+    --primary-color: #3B82F6; /* Blue for primary actions/accents */
+    --primary-light: #BFDBFE;
+    --background-light: #F9FAFB;
+    --text-dark: #1F2937;
+    --text-muted: #6B7280;
+    --card-bg: #FFFFFF;
+    --success-color: #10B981; /* Green for Approve */
+    --danger-color: #EF4444; /* Red for Reject */
+    --warning-color: #FBBF24; /* Yellow for Pending/BDAY */
+    --weekoff-color: #9CA3AF; /* Gray for Week Off */
+    --holiday-color: #A78BFA; /* Purple for Holiday */
+    --leave-color: #EC4899; /* Pink for Leave */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* --- Layout Containers --- */
+.admin-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- Header & Logout Button --- */
+.dashboard-header {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+#logout-btn {
+    background-color: var(--danger-color);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#logout-btn:hover {
+    background-color: #B91C1C;
+}
+
+/* --- Calendar Card --- */
+.calendar-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-header, .calendar-header-modal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.nav-btn {
+    background: var(--primary-light);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.nav-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+/* --- Calendar Days Grid & Highlighting (Crucial for Professional Look) --- */
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-days > div {
+    aspect-ratio: 1 / 1; /* Makes cells square */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: default;
+    transition: background-color 0.2s;
+    padding: 5px 2px;
+    min-height: 50px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.calendar-days > div:hover {
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.calendar-days .inactive {
+    background-color: var(--background-light);
+    color: #E5E7EB;
+}
+
+.calendar-days > div div:first-child {
+    font-size: 1rem;
+    z-index: 10;
+}
+
+.holiday-type {
+    font-size: 0.65rem;
+    font-weight: 500;
+    opacity: 0.8;
+    margin-top: 2px;
+    z-index: 10;
+}
+
+/* State Styling */
+.today {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.holiday {
+    background-color: var(--holiday-color);
+    color: white;
+}
+
+.weekoff {
+    background-color: var(--weekoff-color);
+    color: white;
+}
+
+.leave {
+    background-color: var(--leave-color);
+    color: white;
+}
+/* Ensure highlights are visible over the date */
+.holiday div:first-child,
+.weekoff div:first-child,
+.leave div:first-child {
+    color: white;
+}
+
+/* Legend Styling */
+.calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.legend-color.holiday-color { background-color: var(--holiday-color); }
+.legend-color.weekoff-color { background-color: var(--weekoff-color); }
+.legend-color.leave-color { background-color: var(--leave-color); }
+.legend-color.today-color { background-color: var(--primary-color); }
+
+/* --- Forms & Employee List Sections --- */
+.section-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+@media (min-width: 768px) {
+    .section-grid {
+        grid-template-columns: 1fr 1fr; /* Two columns for medium screens */
+    }
+}
+@media (min-width: 1024px) {
+    .section-grid {
+        grid-template-columns: 1fr 1fr 1fr; /* Three columns for large screens */
+    }
+}
+
+.form-section, .events-section, #employeePanel {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.form-section h3, .events-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Form Styles */
+.form-row {
+    margin-bottom: 10px;
+}
+
+.form-section input, .form-section select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-section input:focus, .form-section select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-light);
+    outline: none;
+}
+
+.form-section button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.form-section button:hover:not(:disabled) {
+    background-color: #2563EB;
+}
+
+.form-section button:disabled {
+    background-color: #9CA3AF;
+    cursor: not-allowed;
+}
+
+
+/* --- Employee List --- */
+#empSearch {
+    margin-bottom: 15px;
+}
+
+.employee-list {
+    list-style: none;
+    padding: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    background-color: #F9FAFB;
+}
+
+.employee-list li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #E5E7EB;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: 500;
+}
+
+.employee-list li:last-child {
+    border-bottom: none;
+}
+
+.employee-list li:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+
+/* --- General Table Styles (For Events & Leave Requests) --- */
+.events-section table {
+    width: 100%;
+    border-collapse: separate; /* Use separate for rounded corners */
+    border-spacing: 0;
+    font-size: 0.95rem;
+}
+
+.events-section th, .events-section td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.events-section th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.events-section tr:last-child td {
+    border-bottom: none;
+}
+
+.events-section tr:nth-child(even) {
+    background-color: #F9FAFB;
+}
+
+/* Table Header Rounded Corners */
+.events-section th:first-child { border-top-left-radius: 8px; }
+.events-section th:last-child { border-top-right-radius: 8px; }
+
+/* Table Button Styles (Crucial for the requested green/red colors) */
+.events-section td button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, opacity 0.2s;
+    font-size: 0.9rem;
+    margin-right: 5px; /* Spacing between buttons */
+    margin-bottom: 5px; /* For mobile stacking */
+}
+
+/* Approve Button - Green */
+.events-section td button.approve-btn {
+    background-color: var(--success-color);
+    color: white;
+}
+.events-section td button.approve-btn:hover {
+    background-color: #059669;
+}
+
+/* Reject Button - Red */
+.events-section td button.reject-btn {
+    background-color: var(--danger-color);
+    color: white;
+}
+.events-section td button.reject-btn:hover {
+    background-color: #B91C1C;
+}
+
+/* Undo Button - Gray */
+.events-section td button:not(.approve-btn):not(.reject-btn) {
+    background-color: var(--weekoff-color);
+    color: white;
+}
+.events-section td button:not(.approve-btn):not(.reject-btn):hover {
+    background-color: #6B7280;
+}
+
+.events-section td button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.status-Pending {
+    background-color: #FEF3C7; /* Light Yellow */
+    color: #92400E; /* Dark Yellow */
+}
+.status-Approved {
+    background-color: #D1FAE5; /* Light Green */
+    color: #065F46; /* Dark Green */
+}
+.status-Rejected {
+    background-color: #FEE2E2; /* Light Red */
+    color: #991B1B; /* Dark Red */
+}
+
+/* --- Modal Styles --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.modal-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    margin-bottom: 5px;
+}
+
+.close {
+    color: var(--text-muted);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close:hover, .close:focus {
+    color: var(--danger-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-calendar {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+}
+.calendar-weekdays > div:nth-child(1), .calendar-weekdays > div:nth-child(7) {
+    color: var(--danger-color);
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 600px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    .admin-container {
+        padding: 10px;
+    }
+    .calendar-days > div {
+        font-size: 0.9rem;
+        min-height: 40px;
+        padding: 2px 1px;
+    }
+    .calendar-weekdays {
+        font-size: 0.8rem;
+    }
+    .events-section th, .events-section td {
+        padding: 8px 5px;
+        font-size: 0.85rem;
+    }
+    .events-section td button {
+        display: block;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+}
